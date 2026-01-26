@@ -1,11 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Portfolio</title>
+    <meta name="description" content="Portfolio professionnel de développeur web - Découvrez mes projets et compétences">
+    <meta name="theme-color" content="#4a90e2">
+    <link rel="stylesheet" href="style.css">
+    <title>Mon Portfolio | Louis ALARY</title>
 </head>
 <body>
-    <h1>Bienvenue sur mon portfolio</h1>    
+    <!-- Header -->
+    <header role="banner">
+        <nav aria-label="Navigation principale">
+            <div class="nav-container">
+                <a href="#accueil" class="logo" aria-label="Retour à l'accueil">Portfolio</a>
+                <button class="theme-toggle" aria-label="Basculer le mode sombre" title="Changer le thème">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+                <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#apropos">À propos</a></li>
+                    <li><a href="#projets">Projets</a></li>
+                    <li><a href="#competences">Compétences</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero" aria-labelledby="hero-title">
+        <div class="container">
+            <h1 id="hero-title">Bonjour, je suis <span class="highlight">Louis ALARY</span></h1>
+            <p class="hero-subtitle">Développeur Web à la recherche d'une alternance</p>
+            <a href="#projets" class="cta-button">Voir mes projets</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="apropos" class="about" aria-labelledby="about-title">
+        <div class="container">
+            <h2 id="about-title">À propos de moi</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Passionné par le développement web, je crée des sites et applications performants, accessibles et optimisés pour tous les utilisateurs.</p>
+                    <p>Mon expertise couvre le développement front-end et back-end.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projets" class="projects" aria-labelledby="projects-title">
+        <div class="container">
+            <h2 id="projects-title">Mes Projets</h2>
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-image" role="img" aria-label="Capture d'écran du projet 1"></div>
+                    <div class="project-content">
+                        <h3>Projet E-commerce</h3>
+                        <p>Plateforme e-commerce complète avec panier, paiement et gestion des commandes.</p>
+                        <div class="project-tags">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-image" role="img" aria-label="Capture d'écran du projet 2"></div>
+                    <div class="project-content">
+                        <h3>Application Mobile</h3>
+                        <p>Application de gestion de tâches avec synchronisation temps réel.</p>
+                        <div class="project-tags">
+                            <span>React Native</span>
+                            <span>Firebase</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <div class="project-image" role="img" aria-label="Capture d'écran du projet 3"></div>
+                    <div class="project-content">
+                        <h3>Dashboard Analytics</h3>
+                        <p>Tableau de bord interactif pour visualisation de données en temps réel.</p>
+                        <div class="project-tags">
+                            <span>Vue.js</span>
+                            <span>D3.js</span>
+                            <span>API REST</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="competences" class="skills" aria-labelledby="skills-title">
+        <div class="container">
+            <h2 id="skills-title">Compétences</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Front-end</h3>
+                    <ul>
+                        <li>HTML5 / CSS3</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>React / Vue.js</li>
+                        <li>Responsive Design</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Back-end</h3>
+                    <ul>
+                        <li>Node.js / Express</li>
+                        <li>Python / Django</li>
+                        <li>API REST</li>
+                        <li>Bases de données</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Outils</h3>
+                    <ul>
+                        <li>Git / GitHub</li>
+                        <li>Webpack / Vite</li>
+                        <li>Docker</li>
+                        <li>CI/CD</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <div class="container">
+            <p>&copy; 2026 Portfolio. Tous droits réservés.</p>
+            <div class="social-links" aria-label="Liens réseaux sociaux">
+                <a href="https://www.linkedin.com/in/louis-alary28/" aria-label="LinkedIN" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/Louis-ala" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

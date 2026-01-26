@@ -1,0 +1,12 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio professionnel optimisé pour Lighthouse",
+  "scripts": {
+    "serv": "npx http-server . -p 8000 -o",
+    "start": "npx http-server . -p 8000 -o"
+  },
+  "keywords": ["portfolio", "web", "developer"],
+  "author": "",
+  "license": "MIT"
+}

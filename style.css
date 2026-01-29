@@ -1104,13 +1104,13 @@ textarea:focus-visible {
 
 /* Sélection de texte personnalisée */
 ::selection {
-    background: var(--gradient-primary);
-    color: white;
+    background: rgba(128, 102, 234, 0.3);
+    color: var(--text-color);
 }
 
 ::-moz-selection {
-    background: var(--gradient-primary);
-    color: white;
+    background: rgba(102, 126, 234, 0.3);
+    color: var(--text-color);
 }
 
 /* Scrollbar personnalisée */

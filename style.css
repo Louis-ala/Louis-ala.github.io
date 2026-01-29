@@ -182,7 +182,7 @@ header:hover {
 }
 
 .theme-toggle:hover::before {
-    opacity: 0.5;
+    opacity: 0.3;
     animation: rotate-border 3s linear infinite;
 }
 

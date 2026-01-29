@@ -918,7 +918,7 @@ footer p {
 
 .social-links a:hover::before,
 .social-links a:focus::before {
-    opacity: 0.1;
+    opacity: 0.5;
 }
 
 .social-links a:hover,

@@ -9,7 +9,7 @@ export const profile = {
   ],
   location: "Basé à Toulouse, mobile dans toute la France",
   rhythm: "Rythme d'alternance : 3 semaines en entreprise, 1 semaine en cours",
-  photoAlt: "Portrait de Louis Alary, souriant, en veste claire sur fond gris",
+  photoAlt: "Portrait de Louis Alary, souriant, en veste claire sur fond blanc",
 } as const;
 
 export type Contact = { label: string; value: string; href: string; external?: boolean };

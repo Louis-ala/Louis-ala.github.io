@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as content from "./content";
 
-const { contacts, education, experience, potionProject, profile, skills } = content;
+const { chapters, contacts, inventory, journey, passions, profile, repoExtras, traits } = content;
 
 describe("contenu du portfolio", () => {
   it("ne contient aucune donnée privée du CV", () => {
@@ -12,8 +12,17 @@ describe("contenu du portfolio", () => {
   });
 
   it("mentionne la localisation et la mobilité", () => {
-    expect(profile.location).toContain("Toulouse");
-    expect(profile.location).toContain("toute la France");
+    const stats = profile.stats.map((s) => s.value).join(" ");
+    expect(stats).toContain("Toulouse");
+    expect(stats).toContain("Toute la France");
+    expect(passions.base.detail).toContain("toute la France");
+  });
+
+  it("intègre les trois passions annoncées", () => {
+    const text = JSON.stringify(passions);
+    for (const word of ["Basket", "rugby", "foot", "volley", "Zelda", "Hollow Knight", "énigme", "Tolkien"]) {
+      expect(text).toContain(word);
+    }
   });
 
   it("a des liens de contact valides", () => {
@@ -24,37 +33,45 @@ describe("contenu du portfolio", () => {
     }
   });
 
-  it("a un parcours complet", () => {
-    expect(experience.length).toBeGreaterThan(0);
-    expect(education.length).toBeGreaterThan(0);
-    for (const step of [...experience, ...education]) {
-      expect(step.period.trim()).not.toBe("");
-      expect(step.title.trim()).not.toBe("");
-      expect(step.place.trim()).not.toBe("");
+  it("a des chapitres aux identifiants uniques", () => {
+    expect(new Set(chapters.map((c) => c.id)).size).toBe(chapters.length);
+  });
+
+  it("raconte un parcours complet, avec défi, actions et enseignement", () => {
+    expect(journey.map((s) => s.id)).toEqual(["3r", "ups", "leclerc", "ipi", "celowen"]);
+    for (const step of journey) {
+      for (const field of [step.period, step.title, step.place, step.challenge, step.takeaway]) expect(field.trim()).not.toBe("");
+      expect(step.actions.length).toBeGreaterThan(0);
     }
   });
 
-  it("n'a pas de compétence en double", () => {
-    const items = skills.flatMap((g) => g.items);
-    expect(new Set(items).size).toBe(items.length);
+  it("n'invente pas de chiffres d'impact dans le parcours", () => {
+    const text = journey.map((s) => [s.challenge, s.takeaway, ...s.actions].join(" ")).join(" ");
+    expect(text).not.toMatch(/\d+\s?%|\+\s?\d+/);
   });
 
-  describe("graphique de rentabilité", () => {
-    const { top10 } = potionProject;
+  it("a un inventaire sans doublon, chaque objet relié à un usage réel", () => {
+    const items = inventory.flatMap((d) => d.items);
+    expect(new Set(items.map((i) => i.name)).size).toBe(items.length);
+    for (const i of items) expect(i.usedIn.trim()).not.toBe("");
+  });
+
+  it("relie chaque trait à une source", () => {
+    for (const t of traits) expect(t.source.trim()).not.toBe("");
+  });
+
+  describe("graphique de rentabilité de Potion Craft", () => {
+    const data = repoExtras["py-potion-craft-cescosse-alary-sicre-main"].chart!.data;
 
     it("contient exactement 10 potions distinctes", () => {
-      expect(top10).toHaveLength(10);
-      expect(new Set(top10.map((p) => p.potion)).size).toBe(10);
+      expect(data).toHaveLength(10);
+      expect(new Set(data.map((p) => p.potion)).size).toBe(10);
     });
 
     it("est trié par rentabilité décroissante", () => {
-      const values = top10.map((p) => p.value);
+      const values = data.map((p) => p.value);
       expect(values).toEqual([...values].sort((a, b) => b - a));
       expect(values.every((v) => Number.isFinite(v) && v > 0)).toBe(true);
-    });
-
-    it("pointe vers le bon dépôt GitHub", () => {
-      expect(potionProject.repo).toBe("https://github.com/Louis-ala/py-potion-craft-cescosse-alary-sicre-main");
     });
   });
 });

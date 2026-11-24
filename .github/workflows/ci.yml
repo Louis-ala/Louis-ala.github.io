@@ -32,6 +32,9 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+        env:
+          # Lecture des dépôts publics au pré-rendu, avec un quota d'API plus large.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Préparer l'artefact GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5

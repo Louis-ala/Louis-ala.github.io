@@ -1,133 +1,103 @@
-# Architecture du portfolio
+# Architecture du portfolio, « La Quête »
 
-Le portfolio tient sur une seule page, écrite en **React + TypeScript**, compilée avec **Vite** et hébergée sur **GitHub Pages**.
+Le portfolio est un livre d'aventure interactif d'une seule page, écrit en **React + TypeScript** avec **Vite**, **Tailwind CSS v4** et **Motion** (Framer Motion). Il est hébergé sur **GitHub Pages**.
 
-Son point clé : la page est **pré-rendue en HTML au moment du build**. Le navigateur reçoit du HTML et du CSS prêts à afficher, plus un **petit script d'1 Ko** qui gère le bouton de thème et le halo de la souris.
-
-React sert seulement à générer la page : il n'est **pas** envoyé au navigateur.
+Le principe :
+1. **Au build**, la page est **pré-rendue en HTML**, avec les dépôts GitHub déjà récupérés : elle est lisible immédiatement et indexable.
+2. **Dans le navigateur**, React **hydrate** ce HTML pour activer les animations, le mini-jeu, le mode lecture et le rafraîchissement des projets.
 
 ## Arborescence
 
 ```
-├── index.html                 Gabarit HTML : <head>, SEO, script de thème, emplacements à remplir
-├── src/
-│   ├── data/content.ts        TOUS les textes du site (pitch, parcours, projet, contacts…)
-│   ├── App.tsx                Assemble les sections de la page
-│   ├── components/            Une section par fichier
-│   │   ├── ThemeToggle.tsx    Bouton clair / sombre (balisage seulement)
-│   │   ├── Hero.tsx           Nom, pitch, disponibilité, photo, boutons de contact
-│   │   ├── Project.tsx        Potion Craft + graphique de rentabilité
-│   │   ├── Journey.tsx        Parcours : expérience et formation
-│   │   ├── Skills.tsx         Compétences
-│   │   └── Contact.tsx        Pied de page avec les contacts
-│   ├── enhance/               Comportements côté navigateur, en TypeScript simple, sans React
-│   │   ├── theme.ts           Bascule clair / sombre, mémorisée dans localStorage
-│   │   └── glow.ts            Halo qui suit la souris
-│   ├── client.ts              Point d'entrée navigateur : branche enhance/ (et main.tsx en dev)
-│   ├── main.tsx               Affiche la page avec React (développement uniquement)
-│   ├── entry-server.tsx       Transforme <App/> en chaîne HTML (utilisé au build)
-│   ├── styles.css             Tout le style (couleurs, thèmes, responsive)
-│   ├── assets/                Photo optimisée (AVIF / WebP, 3 tailles)
-│   └── **/*.test.ts(x)        Tests Vitest
-├── scripts/
-│   ├── prerender.mjs          Injecte le HTML dans dist/index.html, puis l'optimise
-│   └── optimize-photo.py      Génère les variantes de la photo
-├── public/                    Copié tel quel : favicon, robots.txt, llms.txt
-└── .github/workflows/ci.yml   CI/CD
+src/
+├── data/content.ts          TOUS les textes : profil, passions, parcours, inventaire, traits, enrichissements de dépôts
+├── App.tsx                  Assemble l'interface fixe (HUD, marque-pages, curseur) et les chapitres
+├── sections/                Un chapitre par fichier
+│   ├── Prologue.tsx         Accroche, carte de personnage, emplacement du mini-jeu
+│   ├── Passions.tsx         Bento grid : sport, jeux vidéo, lecture (illustrations animées)
+│   ├── Quests.tsx           Projets GitHub + graphique de rentabilité Potion Craft
+│   ├── Journey.tsx          Timeline interactive (défi / actions / enseignement)
+│   ├── CharacterSheet.tsx   Inventaire des hard skills, traits (soft skills), langues
+│   └── Epilogue.tsx         Appel à l'action et contacts
+├── components/ui/           Briques du design system
+│   ├── HudBar.tsx           Barre du haut : jauge d'XP liée au scroll, chapitre courant
+│   ├── Bookmarks.tsx        Marque-pages : rubans à droite (desktop), barre en bas (mobile)
+│   ├── Cursor.tsx           Réticule de visée (desktop uniquement)
+│   ├── ThemeToggle.tsx      Bouton « Mode lecture »
+│   ├── Chapter.tsx          En-tête de chapitre (numéro, titre, chapeau)
+│   ├── Reveal.tsx           Apparition au scroll, sans casser le HTML pré-rendu
+│   └── Tag.tsx
+├── game/                    Mini-jeu « Buzzer Beater »
+│   ├── engine.ts            Physique et règles, sans dessin (testé)
+│   ├── render.ts            Dessin Canvas
+│   └── BuzzerBeater.tsx     Boucle, commandes, HUD, accessibilité
+├── lib/
+│   ├── github.ts            API GitHub : récupération, filtres, langages, cache
+│   ├── theme.ts             Thème nuit / lecture
+│   ├── motion.ts            Courbe « nerveuse », media queries
+│   └── useActiveChapter.ts  Chapitre en cours de lecture
+├── main.tsx                 Navigateur : hydratation
+├── entry-server.tsx         Build : rendu HTML (render) + fetchRepos pour le pré-rendu
+└── styles.css               Tailwind, jetons (@theme), polices
+scripts/prerender.mjs        Assemble dist/index.html
 ```
 
-## Le build, étape par étape
+## Build et pré-rendu
 
-`npm run build` enchaîne quatre commandes :
+`npm run build` enchaîne quatre étapes : `tsc -b`, puis `vite build` (client), puis `vite build --ssr` (serveur), puis `node scripts/prerender.mjs`.
 
-```
-tsc -b                 1. Vérifie les types
-vite build             2. Bundle client → dist/ (client.ts + CSS + police)
-vite build --ssr …     3. Bundle serveur → dist-ssr/ (entry-server.js + images)
-node prerender.mjs     4. Assemble la page finale
-```
+Le script `prerender.mjs` :
+1. récupère les dépôts via `fetchRepos` (avec `GITHUB_TOKEN` en CI) ; si GitHub ne répond pas, le build continue quand même ;
+2. remplace `<!--app-outlet-->` par `render(repos)` (**c'est le pré-rendu**) et injecte les dépôts en JSON (`#quests-data`), pour que l'hydratation parte des mêmes données ;
+3. intègre le CSS dans la page et précharge les polices Bricolage et Literata.
 
-`scripts/prerender.mjs` fait ceci :
+## Design system
 
-1. Il appelle `render()` et place le HTML obtenu à la place de `<!--app-outlet-->` (**c'est le pré-rendu**, ligne `html.replace("<!--app-outlet-->", render())`).
-2. Il **intègre le CSS dans la page** (`<style>`), ce qui économise une requête bloquante.
-3. Il **copie les images** émises par le build serveur dans `dist/assets/`.
-4. Il supprime le fichier CSS devenu inutile.
-5. Il **précharge la police** des titres et supprime `dist-ssr/`.
+- **Jetons** (`styles.css`, bloc `@theme`) : chaque couleur est écrite `light-dark(mode lecture, mode nuit)`. Tailwind les expose en classes (`bg-ink`, `text-violet`, `text-gold`…). Tous les couples texte/fond ont un contraste d'au moins 5:1.
+- **Thème** : nuit par défaut. « Mode lecture » pose `<html data-theme="light">`, et un mini-script dans `index.html` applique le choix avant l'affichage.
+- **Polices** :
+  - Bricolage Grotesque pour les titres (énergie) ;
+  - Literata pour le récit (lecture) ;
+  - Silkscreen pour l'interface de jeu (score, stats).
+- **Mouvement** : courbe `EASE_SNAP` (départ explosif, arrivée amortie), uniquement `transform` et `opacity`. `MotionConfig reducedMotion="user"` coupe les mouvements si le système le demande. Dans ce cas, le curseur personnalisé et les effets du jeu sont désactivés.
+- **`LazyMotion` + `m`** : seules les fonctions d'animation utilisées sont incluses.
+- **`Reveal`** : le HTML pré-rendu reste visible. Seuls les éléments situés sous l'écran sont masqués avant d'apparaître, donc rien ne clignote.
 
-> **Pourquoi pas React dans le navigateur ?** La page n'a besoin que de deux petites interactions. Avec React (hydratation, environ 70 Ko), Lighthouse Performance en mobile plafonnait à 99. Avec 1 Ko de TypeScript simple, on reste à 100.
-> Si la page devient plus interactive, on peut revenir à React : il suffit que `client.ts` appelle `hydrateRoot` comme le fait `main.tsx`.
+## Mini-jeu « Buzzer Beater »
 
-## Données et composants
+- **Moteur** (`engine.ts`) : un terrain virtuel de 480 × 320 et une gravité. Le cercle a deux points de collision, la planche une surface de rebond, et le sol fait rebondir la balle. Un panier est compté quand le centre de la balle traverse le cercle vers le bas.
+- **Points** : 2 ou 3 selon la distance, +1 pour un « swish » (sans toucher le cercle), et un bonus de combo pour les paniers d'affilée. Un tir lancé avant la sirène compte encore (« buzzer beater »).
+- **Rendu** (`render.ts`) : traînée, filet qui ondule, secousse, textes « +3 ». Les couleurs viennent des jetons du thème.
+- **Commandes** :
+  - souris ou doigt : glisser façon lance-pierre ;
+  - clavier : flèches pour l'angle et la puissance, Espace pour tirer, Échap pour la pause.
+- **Accessibilité** : les annonces passent par `aria-live`.
+- **Performance** :
+  - le jeu est chargé à la demande (`React.lazy`) ;
+  - la boucle `requestAnimationFrame` s'arrête dès que rien ne bouge ;
+  - la partie se met en pause si le jeu sort de l'écran ou si l'onglet est caché.
 
-- **Le contenu est séparé de la présentation.** Pour modifier un texte, on ne touche qu'à `src/data/content.ts`. Les composants se contentent de parcourir ces données.
-- **Le graphique de rentabilité** (`Project.tsx`) est en HTML/CSS pur. Chaque barre est un `<span>` dont la largeur vaut `valeur / max × 100 %`, et sa couleur dépend de l'attribut `data-type` (le type de magie).
-- **L'accessibilité** passe par :
-  - un seul `<h1>` et une hiérarchie `h2 > h3 > h4` ;
-  - un lien « Aller au contenu » ;
-  - un texte alternatif sur la photo ;
-  - un texte masqué qui annonce le type de magie aux lecteurs d'écran ;
-  - un bouton de thème avec `aria-pressed`.
+## Projets GitHub (`lib/github.ts`)
 
-## Thème clair / sombre
+- **Filtres** : sont exclus les forks, les dépôts archivés et la liste `EXCLUDED_REPOS` (portfolio, profil, examens et cours), ainsi que les noms contenant `exam`, `cours`, `tp`…
+- **Tri** : étoiles d'abord, puis activité récente.
+- **Enrichissement** : `repoExtras` (dans `content.ts`) ajoute un titre, un résumé, « ma contribution » et un graphique pour un dépôt donné.
+- **Navigateur** : les dépôts sont rafraîchis avec un cache d'une heure (`sessionStorage`) ; en cas d'échec, les données du build restent affichées.
 
-- **Couleurs** : dans `styles.css`, chaque couleur est écrite `light-dark(valeur claire, valeur sombre)`. Le navigateur choisit la valeur selon `color-scheme`.
-- **Sans choix de l'utilisateur** : le site suit le réglage du système (`color-scheme: light dark`).
-- **Clic sur le bouton** : `theme.ts` pose `<html data-theme="dark">` (ou `light`), ce qui force `color-scheme`. Il enregistre aussi le choix dans `localStorage`.
-- **Pas de flash au chargement** : un mini-script dans le `<head>` de `index.html` applique le thème enregistré **avant** le premier affichage.
-- **Sans JavaScript** : le bouton reste caché (`visibility: hidden` tant que `data-ready` est absent), puisqu'il ne servirait à rien.
+## Qualité et CI/CD
 
-## Halo de la souris (`glow.ts`)
+`npm run lint`, `npm run typecheck`, `npm test` (Vitest) :
+- moteur du jeu : chaque position de panier est atteignable, combos, sirène ;
+- filtres GitHub ;
+- contenu : aucune donnée privée, aucun chiffre inventé ;
+- rendu pré-calculé.
 
-- Un disque flou (`radial-gradient`) est placé derrière le contenu (`.page` a `z-index: 1`).
-- À chaque mouvement, on mémorise la position du pointeur. Une boucle `requestAnimationFrame` rapproche le halo de 14 % de la distance restante à chaque image, d'où l'effet de léger retard. La boucle **s'arrête** dès que le halo est arrivé.
-- Le halo est déplacé uniquement par `transform`, ce qui évite tout recalcul de mise en page.
-- Il est **désactivé** sur écran tactile et quand l'utilisateur demande moins d'animations (`prefers-reduced-motion`).
-- Pour régler l'intensité, modifie `--glow` dans `styles.css`.
-
-## Photo
-
-`scripts/optimize-photo.py` recadre `ressources/photo pro.jpg` (non versionné) en 3:4. Il l'exporte ensuite en AVIF et en WebP aux largeurs 160, 320 et 480 px, soit 4 à 18 Ko au lieu de 3,2 Mo.
-
-Dans `Hero.tsx`, la balise `<picture>` laisse le navigateur choisir le format et la taille adaptés.
-
-## Qualité : lint et tests
-
-| Commande | Rôle |
-|---|---|
-| `npm run lint` | ESLint (règles JS, TypeScript et hooks React) |
-| `npm run typecheck` | Vérification des types TypeScript |
-| `npm test` | 19 tests Vitest |
-
-- `content.test.ts` vérifie les données : aucune donnée privée du CV, liens de contact valides, top 10 trié.
-- `App.test.tsx` vérifie le rendu HTML : un seul `h1`, ordre des sections, liens, photo, bouton de thème accessible.
-- `enhance.test.ts` vérifie la logique du thème (valeurs acceptées, bascule) et du halo (le halo converge vers le pointeur).
-
-## CI/CD (`.github/workflows/ci.yml`)
-
-```
-Pull request ──► CI : npm ci → lint → types → tests → build
-Push sur main ─► CI ──(si verte)──► Déploiement GitHub Pages
-```
-
-`main` est protégée :
-
-- les modifications passent obligatoirement par une pull request ;
-- une PR ne se fusionne que si la CI est verte.
-
-Flux de travail :
-
-```bash
-git switch -c ma-modif
-git push -u origin ma-modif
-gh pr create --fill
-gh pr checks --watch
-gh pr merge --squash --delete-branch
-```
+Le workflow `.github/workflows/ci.yml` lance lint, types, tests et build sur chaque PR, puis le déploiement Pages sur `main`. `main` est protégée : on passe par une PR.
 
 ## Recettes rapides
 
 - **Changer un texte** : modifier `src/data/content.ts`.
-- **Changer une couleur** : modifier la paire `light-dark(clair, sombre)` en haut de `styles.css`.
-- **Changer l'intensité du halo** : modifier la variable `--glow` dans `styles.css`.
-- **Changer la photo** : remplacer `ressources/photo pro.jpg`, puis lancer `python scripts/optimize-photo.py`.
+- **Mettre en avant un nouveau dépôt** : ajouter une entrée dans `repoExtras`. Sans entrée, la carte utilise la description GitHub.
+- **Exclure un dépôt** : l'ajouter à `EXCLUDED_REPOS` dans `src/lib/github.ts`.
+- **Changer une couleur** : modifier la paire `light-dark()` dans le bloc `@theme` de `styles.css`.
+- **Régler la difficulté du jeu** : modifier les constantes en haut de `src/game/engine.ts`. Le test « chaque position de panier peut être marquée » garantit que le jeu reste jouable.

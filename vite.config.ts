@@ -8,6 +8,9 @@ export default defineConfig({
   build: {
     // La police et les images doivent rester des fichiers séparés (cache, préchargement).
     assetsInlineLimit: 0,
+    // Les images ne sont importées que par les composants, donc par le build serveur :
+    // il doit les émettre pour que scripts/prerender.mjs les copie dans dist/.
+    ssrEmitAssets: true,
   },
   test: {
     environment: "node",

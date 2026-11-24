@@ -2,7 +2,7 @@
 
 Portfolio de Louis Alary, en ligne sur https://louis-ala.github.io/
 
-Construit avec React, TypeScript et Vite. La page est **pré-rendue en HTML statique au build** et ne livre aucun JavaScript au navigateur. React ne sert qu'à la générer.
+Construit avec React, TypeScript et Vite. La page est **pré-rendue en HTML statique au build**. Le navigateur ne reçoit qu'un script d'environ 1 Ko, pour le bouton de thème et le halo de la souris. Le fonctionnement est expliqué dans [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Développement
 

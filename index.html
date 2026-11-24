@@ -22,10 +22,17 @@
       content="Bachelor développeur/concepteur à l'IPI Toulouse. Recherche une alternance, mobile dans toute la France."
     />
     <meta property="og:url" content="https://louis-ala.github.io/" />
+    <!-- Applique le thème choisi avant le premier affichage (évite un flash de l'autre thème). -->
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
     <!--head-outlet-->
   </head>
   <body>
     <div id="root"><!--app-outlet--></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/client.ts"></script>
   </body>
 </html>

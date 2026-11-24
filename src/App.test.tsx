@@ -35,6 +35,13 @@ describe("rendu de la page", () => {
     for (const a of blank) expect(a).toContain('rel="noopener noreferrer"');
   });
 
+  it("a un bouton de thème accessible", () => {
+    const button = html.match(/<button[^>]*data-theme-toggle[^>]*>[\s\S]*?<\/button>/)?.[0] ?? "";
+    expect(button).toContain('type="button"');
+    expect(button).toContain('aria-pressed="false"');
+    expect(button).toContain("Mode sombre"); // nom accessible
+  });
+
   it("affiche une barre par potion du top 10", () => {
     expect(count(/class="chart__bar"/g)).toBe(potionProject.top10.length);
     for (const p of potionProject.top10) expect(html).toContain(p.potion.replace("'", "&#x27;"));

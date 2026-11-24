@@ -1,4 +1,4 @@
-// Thème : sombre par défaut, « mode lecture » clair au choix.
+// Thème : sombre par défaut, « changer le thème » clair au choix.
 // Le choix est mémorisé et appliqué avant l'affichage par le script en ligne de index.html.
 
 export type Theme = "light" | "dark";

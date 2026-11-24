@@ -5,14 +5,14 @@ export const GITHUB_USER = "Louis-ala";
 
 export const profile = {
   name: "Louis Alary",
-  tagline: "Développeur web en quête d'alternance.",
+  tagline: "Développeur web en recherche d'alternance.",
   hook: "Je code comme je joue au basket : vite, en équipe, et en visant juste. De la maquette Figma au composant React testé, j'aime les interfaces où chaque détail a une raison d'être.",
   photoAlt: "Portrait de Louis Alary, souriant, en veste claire sur fond blanc",
   stats: [
-    { label: "Classe", value: "Développeur web" },
-    { label: "Niveau", value: "Bachelor, 3e année" },
-    { label: "Base", value: "Toulouse" },
-    { label: "Portée", value: "Toute la France" },
+    { label: "Spécialité", value: "Développeur web" },
+    { label: "Etudes", value: "Bachelor, 3e année" },
+    { label: "Basé à", value: "Toulouse" },
+    { label: "Mobilité", value: "Toute la France" },
   ],
 } as const;
 

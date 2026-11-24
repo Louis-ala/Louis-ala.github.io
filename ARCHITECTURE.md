@@ -4,7 +4,7 @@ Le portfolio est un livre d'aventure interactif d'une seule page, écrit en **Re
 
 Le principe :
 1. **Au build**, la page est **pré-rendue en HTML**, avec les dépôts GitHub déjà récupérés : elle est lisible immédiatement et indexable.
-2. **Dans le navigateur**, React **hydrate** ce HTML pour activer les animations, le mini-jeu, le mode lecture et le rafraîchissement des projets.
+2. **Dans le navigateur**, React **hydrate** ce HTML pour activer les animations, le mini-jeu, le changer le thème et le rafraîchissement des projets.
 
 ## Arborescence
 
@@ -23,7 +23,7 @@ src/
 │   ├── HudBar.tsx           Barre du haut : jauge d'XP liée au scroll, chapitre courant
 │   ├── Bookmarks.tsx        Marque-pages : rubans à droite (desktop), barre en bas (mobile)
 │   ├── Cursor.tsx           Réticule de visée (desktop uniquement)
-│   ├── ThemeToggle.tsx      Bouton « Mode lecture »
+│   ├── ThemeToggle.tsx      Bouton « Changer le thème »
 │   ├── Chapter.tsx          En-tête de chapitre (numéro, titre, chapeau)
 │   ├── Reveal.tsx           Apparition au scroll, sans casser le HTML pré-rendu
 │   └── Tag.tsx
@@ -53,8 +53,8 @@ Le script `prerender.mjs` :
 
 ## Design system
 
-- **Jetons** (`styles.css`, bloc `@theme`) : chaque couleur est écrite `light-dark(mode lecture, mode nuit)`. Tailwind les expose en classes (`bg-ink`, `text-violet`, `text-gold`…). Tous les couples texte/fond ont un contraste d'au moins 5:1.
-- **Thème** : nuit par défaut. « Mode lecture » pose `<html data-theme="light">`, et un mini-script dans `index.html` applique le choix avant l'affichage.
+- **Jetons** (`styles.css`, bloc `@theme`) : chaque couleur est écrite `light-dark(changer le thème, mode nuit)`. Tailwind les expose en classes (`bg-ink`, `text-violet`, `text-gold`…). Tous les couples texte/fond ont un contraste d'au moins 5:1.
+- **Thème** : nuit par défaut. « Changer le thème » pose `<html data-theme="light">`, et un mini-script dans `index.html` applique le choix avant l'affichage.
 - **Polices** :
   - Bricolage Grotesque pour les titres (énergie) ;
   - Literata pour le récit (lecture) ;

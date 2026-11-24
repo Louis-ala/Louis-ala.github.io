@@ -28,8 +28,8 @@
 }
 
 /* ---------- Jetons du design system ----------
-   light-dark(mode lecture, mode nuit). Le mode nuit est le défaut ; le bouton
-   « Mode lecture » pose <html data-theme="light">. */
+   light-dark(changer le thème, mode nuit). Le mode nuit est le défaut ; le bouton
+   « Changer le thème » pose <html data-theme="light">. */
 @theme {
   --color-ink: light-dark(#f4f0e6, #100e1a);
   --color-surface: light-dark(#fbf8f1, #1a1728);

@@ -173,7 +173,7 @@ export default function BuzzerBeater({ autoStart = false }: { autoStart?: boolea
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
 
-    // Couleurs du thème : relues quand on bascule le mode lecture.
+    // Couleurs du thème : relues quand on bascule le changer le thème.
     const mo = new MutationObserver(() => {
       paletteRef.current = readPalette(wrap);
       render();

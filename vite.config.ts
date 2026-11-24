@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
 // Dépôt Louis-ala.github.io : le site est servi à la racine du domaine.
@@ -8,5 +8,9 @@ export default defineConfig({
   build: {
     // La police et les images doivent rester des fichiers séparés (cache, préchargement).
     assetsInlineLimit: 0,
+  },
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.{ts,tsx}"],
   },
 });

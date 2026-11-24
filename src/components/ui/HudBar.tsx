@@ -2,7 +2,7 @@ import { m, useScroll, useSpring } from "motion/react";
 import { chapters, type ChapterId } from "../../data/content";
 import { ThemeToggle } from "./ThemeToggle";
 
-/** Barre du haut façon HUD : monogramme, jauge d'XP liée au scroll, chapitre courant, mode lecture. */
+/** Barre du haut façon HUD : monogramme, jauge d'XP liée au scroll, chapitre courant, changer le thème. */
 export function HudBar({ active }: { active: ChapterId }) {
   const { scrollYProgress } = useScroll();
   const xp = useSpring(scrollYProgress, { stiffness: 260, damping: 40, restDelta: 0.001 });

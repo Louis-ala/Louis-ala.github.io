@@ -64,8 +64,8 @@ describe("rendu pré-calculé de la page", () => {
     for (const a of blank) expect(a).toContain('rel="noopener noreferrer"');
   });
 
-  it("a un bouton « Mode lecture » accessible", () => {
-    expect(html).toMatch(/<button[^>]*aria-pressed="false"[^>]*>[\s\S]*?Mode lecture/);
+  it("a un bouton « Changer le thème » accessible", () => {
+    expect(html).toMatch(/<button[^>]*aria-pressed="false"[^>]*>[\s\S]*?Changer le thème/);
   });
 
   it("propose le mini-jeu sans le charger d'avance", () => {

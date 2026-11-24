@@ -27,7 +27,7 @@ export function ThemeToggle() {
         <path d="M12 6v13" stroke="currentColor" strokeWidth="1.8" />
         <path d="M4 4.5v13c3-.5 6 0 8 1.5V6C10 4.5 7 4 4 4.5Z" fill="currentColor" className="opacity-0 transition-opacity duration-300 group-aria-pressed:opacity-40" />
       </svg>
-      Mode lecture
+      Changer le thème
     </button>
   );
 }

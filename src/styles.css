@@ -26,7 +26,7 @@
   --pastel: light-dark(#dbe5f3, #26304a);
   --pastel-ink: light-dark(#1f2c45, #dbe5f3);
   --line: light-dark(#d3d6e2, #353148);
-  --glow: light-dark(rgb(90 45 130 / 0.11), rgb(201 167 239 / 0.09));
+  --glow: light-dark(rgb(90 45 130 / 0.24), rgb(201 167 239 / 0.09));
 
   --magic-noire: light-dark(#2b2838, #6c6782);
   --magic-rouge: light-dark(#b3261e, #e3685d);

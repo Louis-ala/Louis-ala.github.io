@@ -1,0 +1,19 @@
+# Louis Alary
+
+> Portfolio de Louis Alary, étudiant en 3e année de Bachelor développeur/concepteur à l'IPI Toulouse (Groupe Igensia), en recherche d'une alternance en développement web (rythme : 3 semaines en entreprise, 1 semaine en cours). Basé à Toulouse, mobile dans toute la France.
+
+## Profil
+
+- [Portfolio](https://louis-ala.github.io/) : pitch, parcours, compétences et contact
+- [GitHub](https://github.com/Louis-ala) : code public
+- [LinkedIn](https://www.linkedin.com/in/louis-alary28/) : profil professionnel
+
+## Projets
+
+- [Potion Craft](https://github.com/Louis-ala/py-potion-craft-cescosse-alary-sicre-main) : tableau de bord Streamlit (Python, pandas, Plotly) réalisé à trois ; Louis a développé l'histogramme de rentabilité des potions.
+
+## Compétences
+
+- Langages : TypeScript, JavaScript, HTML, CSS, PHP, Python, Java, C, C++, SQL
+- Frameworks : React, Angular, Laravel, Tailwind CSS
+- Formation : double licence mathématiques et informatique (Université Toulouse III – Paul Sabatier, 2022-2025)

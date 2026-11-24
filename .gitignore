@@ -1,3 +1,12 @@
 # Claude Code / agents
 .agents/
 .claude/
+
+# Dépendances et builds
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# Sources privées (CV, photo brute, rapports) : non publiées
+ressources/

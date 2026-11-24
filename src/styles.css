@@ -1,4 +1,6 @@
-/* ---------- Police ---------- */
+@import "tailwindcss";
+
+/* ---------- Polices auto-hébergées (sous-ensemble latin) ---------- */
 @font-face {
   font-family: "Bricolage Grotesque";
   font-style: normal;
@@ -6,650 +8,141 @@
   font-weight: 200 800;
   src: url("../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2")
     format("woff2-variations");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* ---------- Jetons : violette de Toulouse et bleu pastel du Lauragais ----------
-   light-dark(clair, sombre) choisit la valeur selon `color-scheme` :
-   - par défaut, le réglage du système (light dark) ;
-   - forcé par le bouton de thème via <html data-theme="light|dark">. */
-:root {
-  color-scheme: light dark;
-  --paper: light-dark(#f5f6fa, #15131d);
-  --surface: light-dark(#ffffff, #1e1b29);
-  --ink: light-dark(#1c1a27, #eceaf3);
-  --muted: light-dark(#514d64, #aca8bf);
-  --violet: light-dark(#5a2d82, #c9a7ef);
-  --violet-strong: light-dark(#47206a, #dcc4f7);
-  --on-violet: light-dark(#ffffff, #1c1027);
-  --pastel: light-dark(#dbe5f3, #26304a);
-  --pastel-ink: light-dark(#1f2c45, #dbe5f3);
-  --line: light-dark(#d3d6e2, #353148);
-  --glow: light-dark(rgb(90 45 130 / 0.30), rgb(201 167 239 / 0.09));
+@font-face {
+  font-family: "Literata";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url("../node_modules/@fontsource-variable/literata/files/literata-latin-wght-normal.woff2")
+    format("woff2-variations");
+}
 
-  --magic-noire: light-dark(#2b2838, #6c6782);
-  --magic-rouge: light-dark(#b3261e, #e3685d);
-  --magic-blanche: light-dark(#ffffff, #f1eff8);
-  --magic-blanche-edge: light-dark(#8f8aa6, #f1eff8);
-  --magic-verte: light-dark(#2e7d4f, #5fbf86);
-  --magic-bleue: light-dark(#1f5faf, #6aa0e6);
+@font-face {
+  font-family: "Silkscreen";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../node_modules/@fontsource/silkscreen/files/silkscreen-latin-400-normal.woff2") format("woff2");
+}
+
+/* ---------- Jetons du design system ----------
+   light-dark(mode lecture, mode nuit). Le mode nuit est le défaut ; le bouton
+   « Mode lecture » pose <html data-theme="light">. */
+@theme {
+  --color-ink: light-dark(#f4f0e6, #100e1a);
+  --color-surface: light-dark(#fbf8f1, #1a1728);
+  --color-raised: light-dark(#ece4d3, #241f36);
+  --color-fg: light-dark(#1d1a26, #ece8f4);
+  --color-muted: light-dark(#564f63, #aaa4bf);
+  --color-line: light-dark(#d6ccb8, #322c47);
+  --color-violet: light-dark(#5a2d82, #b794f6);
+  --color-gold: light-dark(#7a5400, #e9b949);
+  --color-court: light-dark(#0f6b64, #2dd4bf);
+  --color-ball: #e07a2f;
+  --color-on-accent: light-dark(#ffffff, #100e1a);
 
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --radius: 0.75rem;
-  --gutter: clamp(1rem, 5vw, 3rem);
+  --font-serif: "Literata", Georgia, "Times New Roman", serif;
+  --font-pixel: "Silkscreen", ui-monospace, monospace;
+
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+
+:root {
+  color-scheme: dark;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-}
-
 /* ---------- Base ---------- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  line-height: 1.15;
-  margin: 0;
-  text-wrap: balance;
-}
-
-p,
-ul,
-ol,
-dl,
-dd,
-figure {
-  margin: 0;
-}
-
-p {
-  max-width: 66ch;
-  text-wrap: pretty;
-}
-
-ul,
-ol {
-  padding: 0;
-  list-style: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-a {
-  color: var(--violet);
-}
-
-:focus-visible {
-  outline: 3px solid var(--violet);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-main:focus {
-  outline: none;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.skip-link {
-  position: absolute;
-  left: var(--gutter);
-  top: -4rem;
-  z-index: 10;
-  padding: 0.75rem 1rem;
-  background: var(--violet);
-  color: var(--on-violet);
-  font-weight: 600;
-  border-radius: 0 0 var(--radius) var(--radius);
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* ---------- Mise en page ---------- */
-.page {
-  position: relative;
-  z-index: 1; /* au-dessus du halo */
-  max-width: 66rem;
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-
-/* ---------- Bouton de thème ---------- */
-.theme-toggle {
-  position: absolute;
-  top: 0.75rem;
-  right: var(--gutter);
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--violet);
-  cursor: pointer;
-  visibility: hidden; /* visible une fois le script chargé : sans JS, il ne servirait à rien */
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.theme-toggle[data-ready] {
-  visibility: visible;
-}
-
-.theme-toggle:hover {
-  border-color: var(--violet);
-  background: var(--pastel);
-}
-
-.theme-toggle svg {
-  transition: transform 0.4s ease;
-}
-
-.theme-toggle[aria-pressed="true"] svg {
-  transform: rotate(180deg);
-}
-
-/* ---------- Halo qui suit la souris (src/enhance/glow.ts) ---------- */
-.pointer-glow {
-  position: fixed;
-  top: -16rem;
-  left: -16rem;
-  z-index: 0;
-  width: 32rem;
-  height: 32rem;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, var(--glow), transparent);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  will-change: transform;
-}
-
-.pointer-glow.is-visible {
-  opacity: 1;
-}
-
-.section {
-  padding-block: clamp(3rem, 7vw, 5rem);
-  border-top: 1px solid var(--line);
-}
-
-.section > h2,
-.contact > h2 {
-  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-/* ---------- Hero ---------- */
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(1.25rem, 4vw, 3.5rem);
-  align-items: start;
-  padding-block: clamp(3rem, 9vw, 6.5rem) clamp(3rem, 7vw, 5rem);
-}
-
-.hero__name {
-  font-size: clamp(2.75rem, 8vw, 5.25rem);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
-  color: var(--violet);
-}
-
-.hero__role {
-  margin-top: 0.75rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
-  font-weight: 500;
-}
-
-.hero__pitch {
-  margin-top: 1.25rem;
-  color: var(--ink);
-}
-
-.hero__pitch + .hero__pitch {
-  margin-top: 0.75rem;
-}
-
-.hero__photo img {
-  width: 10rem;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  border-radius: var(--radius);
-  background: var(--pastel);
-}
-
-.availability {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  margin-top: 2rem;
-  max-width: 46rem;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.availability > div {
-  padding: 0.875rem 1rem;
-  background: var(--pastel);
-  color: var(--pastel-ink);
-}
-
-.availability dt {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.availability dd {
-  font-size: 0.9375rem;
-  line-height: 1.45;
-}
-
-.hero__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  min-height: 3rem;
-  padding: 0 1.25rem;
-  border: 2px solid var(--violet);
-  border-radius: 999px;
-  color: var(--violet);
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.button:hover {
-  background: var(--pastel);
-}
-
-.button--primary {
-  background: var(--violet);
-  color: var(--on-violet);
-}
-
-.button--primary:hover {
-  background: var(--violet-strong);
-  border-color: var(--violet-strong);
-}
-
-.text-link {
-  font-weight: 600;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  transition: text-decoration-thickness 0.15s ease;
-}
-
-.text-link:hover {
-  text-decoration-thickness: 2px;
-}
-
-/* ---------- Étiquettes ---------- */
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tags li {
-  padding: 0.25rem 0.75rem;
-  background: var(--pastel);
-  color: var(--pastel-ink);
-  border-radius: 999px;
-  font-size: 0.9375rem;
-}
-
-/* ---------- Projet ---------- */
-.project {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: start;
-}
-
-.project h3 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
-}
-
-.project__team {
-  margin-top: 0.25rem;
-  color: var(--muted);
-}
-
-.project__intro > p:not(.project__team) {
-  margin-top: 1.25rem;
-}
-
-.project__intro .tags {
-  margin-top: 1.5rem;
-}
-
-.project__mine {
-  padding: clamp(1.25rem, 3vw, 2rem);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: calc(var(--radius) * 1.5);
-}
-
-.project__mine h4 {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.steps {
-  margin-top: 1rem;
-  padding-left: 1.25rem;
-  list-style: disc;
-}
-
-.steps li + li {
-  margin-top: 0.375rem;
-}
-
-.steps li::marker {
-  color: var(--violet);
-}
-
-/* ---------- Graphique de rentabilité (HTML/CSS, sans JS) ---------- */
-.chart {
-  margin-top: 1.75rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-}
-
-.chart figcaption {
-  font-size: 0.9375rem;
-  color: var(--muted);
-}
-
-.chart__bars {
-  margin-top: 1.25rem;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.chart__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 3.25rem;
-  grid-template-areas:
-    "label label"
-    "track value";
-  column-gap: 0.75rem;
-  align-items: center;
-}
-
-.chart__label {
-  grid-area: label;
-  font-size: 0.9375rem;
-  line-height: 1.35;
-  margin-bottom: 0.25rem;
-}
-
-.chart__track {
-  grid-area: track;
-  display: block;
-  height: 0.875rem;
-}
-
-.chart__bar {
-  display: block;
-  height: 100%;
-  border-radius: 0 4px 4px 0;
-  background: var(--magic-noire);
-}
-
-.chart__value {
-  grid-area: value;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  font-size: 0.9375rem;
-}
-
-.chart [data-type="Rouge"] {
-  background: var(--magic-rouge);
-}
-
-.chart [data-type="Blanche"] {
-  background: var(--magic-blanche);
-  box-shadow: inset 0 0 0 1.5px var(--magic-blanche-edge);
-}
-
-.chart [data-type="Verte"] {
-  background: var(--magic-verte);
-}
-
-.chart [data-type="Bleue"] {
-  background: var(--magic-bleue);
-}
-
-.chart__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-.chart__legend li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.chart__swatch {
-  width: 0.875rem;
-  height: 0.875rem;
-  border-radius: 3px;
-  background: var(--magic-noire);
-}
-
-/* ---------- Parcours ---------- */
-.journey {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(2rem, 5vw, 4rem);
-}
-
-.timeline h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 1.25rem;
-}
-
-.timeline ol {
-  border-left: 2px solid var(--pastel);
-}
-
-.timeline__item {
-  position: relative;
-  padding: 0 0 1.75rem 1.5rem;
-}
-
-.timeline__item:last-child {
-  padding-bottom: 0;
-}
-
-.timeline__item::before {
-  content: "";
-  position: absolute;
-  left: -7px;
-  top: 0.45rem;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--paper);
-  border: 2px solid var(--violet);
-}
-
-.timeline__period {
-  font-size: 0.9375rem;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.timeline__item h4 {
-  margin-top: 0.125rem;
-  font-size: 1.1875rem;
-  font-weight: 650;
-}
-
-.timeline__place {
-  color: var(--muted);
-}
-
-.timeline__item ul {
-  margin-top: 0.5rem;
-  padding-left: 1.125rem;
-  list-style: disc;
-}
-
-/* ---------- Compétences ---------- */
-.skills {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem clamp(2rem, 5vw, 4rem);
-}
-
-.skills__group h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 0.875rem;
-}
-
-/* ---------- Contact ---------- */
-.contact {
-  padding-block: clamp(3rem, 7vw, 5rem) 2.5rem;
-  border-top: 1px solid var(--line);
-}
-
-.contact__lead {
-  margin-top: -0.75rem;
-}
-
-.contact__list {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, auto));
-  justify-content: start;
-  gap: 1.25rem clamp(1.5rem, 4vw, 3rem);
-  margin-top: 1.75rem;
-}
-
-.contact__list dt {
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-.contact__list a {
-  display: inline-block;
-  padding-block: 0.625rem;
-  overflow-wrap: anywhere;
-}
-
-.contact__fine {
-  margin-top: 3rem;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 56rem) {
-  .project,
-  .contact__list {
-    grid-template-columns: minmax(0, 1fr);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
-  .contact__list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  body {
+    background: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--color-violet);
+    color: var(--color-on-accent);
   }
 }
 
-@media (max-width: 40rem) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .hero__photo {
-    grid-row: 1;
-  }
-
-  .hero__photo img {
-    width: 7rem;
-  }
-
-  .availability,
-  .journey,
-  .skills,
-  .contact__list {
-    grid-template-columns: minmax(0, 1fr);
-  }
+/* Curseur personnalisé actif : on masque le curseur natif (desktop uniquement). */
+html.has-reticle,
+html.has-reticle * {
+  cursor: none !important;
 }
 
+/* ---------- Couleurs des types de magie (graphique Potion Craft) ---------- */
+[data-magic="Noire"] {
+  background: light-dark(#2b2838, #7a7494);
+}
+[data-magic="Rouge"] {
+  background: light-dark(#b3261e, #e3685d);
+}
+[data-magic="Blanche"] {
+  background: light-dark(#ffffff, #f1eff8);
+  box-shadow: inset 0 0 0 1.5px light-dark(#8f8aa6, #f1eff8);
+}
+[data-magic="Verte"] {
+  background: light-dark(#2e7d4f, #5fbf86);
+}
+[data-magic="Bleue"] {
+  background: light-dark(#1f5faf, #6aa0e6);
+}
+[data-magic="Pourpre"] {
+  background: light-dark(#7b2fa8, #c38bea);
+}
+
+/* ---------- Mouvements réduits ---------- */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
-    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,15 +1,15 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 // Dépôt Louis-ala.github.io : le site est servi à la racine du domaine.
 export default defineConfig({
   base: "/",
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
-    // La police et les images doivent rester des fichiers séparés (cache, préchargement).
+    // Polices et images restent des fichiers séparés (cache, préchargement).
     assetsInlineLimit: 0,
-    // Les images ne sont importées que par les composants, donc par le build serveur :
-    // il doit les émettre pour que scripts/prerender.mjs les copie dans dist/.
+    // Les images sont aussi importées par le build serveur ; scripts/prerender.mjs les recopie.
     ssrEmitAssets: true,
   },
   test: {

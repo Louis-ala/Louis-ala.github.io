@@ -2,7 +2,9 @@
 
 Portfolio de Louis Alary, en ligne sur https://louis-ala.github.io/
 
-Construit avec React, TypeScript et Vite. La page est **pré-rendue en HTML statique au build**. Le navigateur ne reçoit qu'un script d'environ 1 Ko, pour le bouton de thème et le halo de la souris. Le fonctionnement est expliqué dans [ARCHITECTURE.md](ARCHITECTURE.md).
+« La Quête » : un portfolio interactif en chapitres, avec un mini-jeu de basket, les projets GitHub récupérés en direct, un parcours narratif et une fiche personnage.
+
+Construit avec React, TypeScript, Vite, Tailwind CSS et Motion. La page est **pré-rendue en HTML au build**, puis hydratée par React. Le fonctionnement est expliqué dans [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Développement
 
@@ -18,7 +20,9 @@ npm run preview   # aperçu du build
 
 ## Modifier le contenu
 
-Tous les textes (pitch, parcours, compétences, projet, contacts) se trouvent dans `src/data/content.ts`.
+Tous les textes (accroche, passions, parcours, inventaire, traits, contacts) se trouvent dans `src/data/content.ts`.
+
+Les projets viennent de l'API GitHub. Pour exclure un dépôt, ajoute-le à `EXCLUDED_REPOS` dans `src/lib/github.ts`. Pour enrichir sa carte (titre, contribution), ajoute une entrée dans `repoExtras`, dans `content.ts`.
 
 Pour changer la photo, remplace `ressources/photo pro.jpg` (dossier non versionné), puis lance `python scripts/optimize-photo.py`. Le script régénère `src/assets/photo-*.avif|webp`.
 
